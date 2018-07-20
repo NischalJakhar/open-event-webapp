@@ -5,8 +5,8 @@
 
 /* Offsets for fixed navbar */
 body {
-  background-color: $background-shade !important;
-  color: $gray-dark;
+  background-color: $background-shade;
+  color: $text-color;
   font: 12px 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -22,16 +22,16 @@ body {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  color: $light-black;
+  color: $head-color;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 300;
 }
 
 a {
-  color: $gray-dark;
+  color: $link-color;
 
   &:hover {
-    color: $gray-extra-dark;
+    color: $hover-color;
     text-decoration: none;
   }
 
@@ -86,7 +86,7 @@ a {
   }
 
   a:hover {
-    color: $black;
+    color: $hover-color;
   }
 }
 
@@ -134,12 +134,18 @@ a {
 }
 
 .navbar-default {
-  background-color: $navbar-color;
+  background-color: $main-background;
   border-color: $gray-extra-light;
 
+  box-shadow: 0 0 8px 0 $navbar-shadow;
+
   .navbar-nav > li > a {
-    color: $black;
+    color: $navbar-text-color;
     font-size: 11px;
+
+    &:hover {
+      color: $hover-color;
+    }
   }
 }
 
@@ -159,7 +165,7 @@ a {
     padding-bottom: 14px;
 
     &:hover {
-      border-bottom: 3px solid $gray-dark;
+      border-bottom: 3px solid $hover-color;
       text-decoration: none;
     }
     @media screen and (max-width: 768px) {
@@ -171,14 +177,51 @@ a {
 }
 
 .navbar-toggle {
+  border: 0;
+  color: $text-color;
+  margin-left: 0;
+  margin-top: 1em;
+  padding: 6px 5px;
+}
+
+.navbar-toggle:hover {
   color: $gray-dark;
-  padding: 6px 10px;
-  margin-left:2em;
-  margin-top:1em;
+
+  #speakerslink {
+    color: $gray-dark;
+  }
+
+  .caret {
+    border-top: 4px solid $gray-dark;
+  }
+}
+
+#speakerslink {
+  color: $navbar-text-color;
+}
+
+.caret {
+  border-top: 4px solid $navbar-text-color;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
   background-color: $gray-dark;
+}
+
+.dropdown-menu {
+  min-width: 60px;
+
+  li {
+    a {
+      padding: 5px 10px;
+    }
+  }
+}
+
+.homelink {
+  @media only screen and (max-width: 350px) {
+    display: none;
+  }
 }
 
 /* General styling of session list */
@@ -202,6 +245,20 @@ a {
 @media (min-width: 450px) {
   body {
     font-size: 14px;
+  }
+}
+
+@media (min-width: 600px) {
+  .video-iframe,
+  .iframe {
+    height: 370px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .iframe {
+    height: 250px;
   }
 }
 
@@ -279,6 +336,10 @@ a {
     font-size: 15px;
     margin-top: -8px;
   }
+
+  .navbar-toggle {
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 500px) {
@@ -305,6 +366,10 @@ a {
   padding: 0;
   vertical-align: top;
   width: 50%;
+}
+
+.video-iframe {
+  max-width: 670px;
 }
 
 .s-popup-header-name {
@@ -348,7 +413,7 @@ a {
 }
 
 .sponsor-container {
-  background: $white;
+  background: $white-classic-background;
 }
 
 .sponsor-row {
@@ -373,6 +438,7 @@ a {
 
 .location {
   background-color: $white-classic-background;
+  padding-top: 5%;
 }
 
 .location-map {
@@ -437,15 +503,13 @@ a {
 
 /* Track SCSS */
 
-.show-button-filter {
-  padding-top: 10px;
-  padding-right: 10px;
-  flex-grow: 1;
-}
-
 .filter {
   margin-right: 10px;
   padding-top: 8px;
+
+  @media only screen and (max-width: 600px) {
+    margin-right: 2px;
+  }
 }
 
 .list-menu {
@@ -492,9 +556,6 @@ a {
   span {
     font-weight: 700;
   }
-  i {
-    margin-left: 10px;
-  }
 }
 
 .featured-speaker {
@@ -512,10 +573,6 @@ a {
 }
 
 @media (max-width: 600px) {
-  .show-button-filter {
-    padding-bottom: 0;
-  }
-
   .show-button-filter button {
     width: 100%;
   }
@@ -546,7 +603,7 @@ a {
 }
 
 .text {
-  color: $black;
+  color: $schedule-color;
   font-size: 22px;
   text-align: justify;
   word-wrap: break-word;
@@ -562,7 +619,7 @@ a {
 .arrow {
   height: 10px;
   left: 6px;
-  margin-top: -9px;
+  margin-top: -8px;
   overflow: hidden;
   position: absolute;
   width: 25px;
@@ -590,9 +647,10 @@ a {
 
 .pop-box {
   cursor: text;
-  background-color: $white;
+  background-color: $main-background;
   border: 1px solid $span-border-left;
   border-radius: 4px;
+  margin-top: 8px;
   height: auto;
   min-height: 255px;
   position: absolute;
@@ -614,7 +672,7 @@ a {
     padding: 10px 20px 0 0;
     &:hover {
       .fa {
-        color: $black;
+        color: $hover-color;
       }
 
       .s-button {
@@ -624,7 +682,7 @@ a {
   }
 
   .pop {
-    background-color: $white;
+    background-color: $main-background;
     margin-left: 20px;
     border-radius: 3px;
 
@@ -644,7 +702,7 @@ a {
     }
 
     .pop-over {
-      color: $gray-dark;
+      color: $text-color;
       font-weight: 400;
       line-height: 20px;
       margin: 0;
@@ -662,6 +720,10 @@ a {
     margin-left: -20px;
     padding: 5px 5px 0 20px;
   }
+}
+
+.speaker-social .fa {
+  padding: 5px;
 }
 
 #headline {
@@ -754,7 +816,7 @@ a {
 }
 
 .active {
-  color: $black !important;
+  color: $black;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -764,7 +826,7 @@ a {
 }
 
 .eventtime {
-  color: $gray-dark;
+  color: $event-color;
   height: 46px;
   text-align: center;
   transform: translateY(30%);
@@ -808,6 +870,11 @@ a {
   height: 12px;
   width: 12px;
   display: inline-block;
+  margin-right: 2px;
+}
+
+.room-titlecolor {
+  background-color: $link-color;
 }
 
 .track-name {
@@ -820,10 +887,30 @@ a {
 
 .track-info {
   margin-bottom: 5px;
+  &:hover {
+    .track-name {
+      color: $light-blue;
+    }
+    .titlecolor {
+      height: 14px;
+      margin-right: 0;
+      width: 14px;
+    }
+  }
 }
 
 .room-info {
   margin-bottom: 5px;
+  &:hover {
+    .room-name {
+      color: $light-blue;
+    }
+    .titlecolor {
+      height: 14px;
+      margin-right: 0;
+      width: 14px;
+    }
+  }
 }
 
 .room-name-list {
@@ -854,7 +941,7 @@ a {
 }
 
 .track-room-names {
-  color: $black;
+  color: $room-color;
   margin-top: 16%;
   padding-left: 30px;
 
@@ -997,10 +1084,10 @@ a {
   padding: 0;
   position: relative;
   overflow: hidden;
-  background-color: white;
+  background-color: $main-background;
 
   .listing-panel {
-    background-color: $white;
+    background-color: $main-background;
     border-color: $event-border;
     border-style: solid;
     border-width: 0 0 1px;
@@ -1023,7 +1110,10 @@ a {
 }
 
 .eventdes {
-  color: $gray-dark;
+  color: $text-color;
+  font-size: 1.4em;
+  padding-left: 3%;
+  padding-right: 3%;
   padding-top: 30px;
   text-align: justify;
   p {
@@ -1032,7 +1122,7 @@ a {
 }
 
 .speaker-info {
-  @include cursorpointer
+  @include cursorpointer;
   height: 280px;
   margin-bottom: 10px;
   padding: 0;
@@ -1136,7 +1226,7 @@ a {
 }
 
 .speaker-name {
-  color: $light-black;
+  color: $speaker-name;
   height: 30px;
   text-align: center;
   line-height: 1em;
@@ -1304,7 +1394,7 @@ a {
 }
 
 .tweets-feed {
-  color: $gray-dark;
+  color: $text-color;
   font-size: 20px;
   height: 100px;
   line-height: 30px;
@@ -1321,10 +1411,6 @@ a {
     display: block;
     font-size: 15px;
   }
-}
-
-#tweet {
-  word-break: break-all;
 }
 
 @media screen and (max-width : 600px) {
@@ -1390,7 +1476,8 @@ a {
     a {
       text-decoration: none;
       &:hover {
-        color: $black;
+        border-bottom: 1px solid;
+        color: $hover-color;
       }
     }
   }
@@ -1403,7 +1490,7 @@ a {
       margin: 0;
       padding: 0;
       i {
-        color: $gray-dark;
+        color: $link-color;
         font-size: 36px;
       }
 
@@ -1458,7 +1545,6 @@ a {
 
   .fossasia-filter {
     display: block;
-    height: 28px;
     margin: 0 auto;
     width: 186px;
     padding-left: 25px;
@@ -1469,7 +1555,6 @@ a {
 
     .fossasia-filter {
       border-radius: 5px;
-      height: 32px;
       width: 80%;
     }
   }
@@ -1479,7 +1564,7 @@ a {
   background: $white-classic-background;
   margin-right: 0px;
   margin-left: 0px;
-  height: 600px;
+  height: auto;
 
   section {
     padding : 72px;
@@ -1489,29 +1574,28 @@ a {
 
 .search-filter-schedule {
   flex-grow: 2;
-  padding: 10px;
-  padding-left: 0px;
   font-size: small;
   border-radius: 5px;
 }
 
 .fossasia-filter {
-  height: 33px;
+  margin-top: 4px;
+  height: 34px;
   width: 100%;
   padding-left: 25px;
   font-size: small;
   border-radius: 5px;
 }
 
+.filter .fossasia-filter,
+.search-filter-speaker .fossasia-filter {
+  // This gives the search box filters the same border as the filter buttons next to it
+  border: 1px solid $filter-input-border-color;
+}
+
 .search-filter {
-
-  @media only screen and (max-width: 350px) {
-    display: none;
-  }
-
   .fossasia-filter {
     background-color: $white;
-    border: 1px solid $gray-dim;
     color: $black;
   }
 
@@ -1543,8 +1627,6 @@ a {
 
 .search-filter-room {
   flex-grow: 2;
-  padding-left: 2px;
-  padding-top: 12px;
 
   input {
     line-height: 30px;
@@ -1555,28 +1637,18 @@ a {
     .fossasia-filter {
       border-radius: 5px;
       float: none;
-      height: 33px;
-      margin: 0 auto;
     }
   }
 
 }
 
-.filter-margin {
-  margin-right: 10px;
-
-  @media only screen and (max-width: 340px) {
-    margin-right: 0;
-  }
-}
-
 .navbar-flex {
   display: flex;
   flex-wrap: wrap;
-  padding-right: 0;
 
   @media only screen and (max-width: 900px) {
     padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -1587,7 +1659,11 @@ a {
 
   .date-list {
     margin-top: 10px;
-    text-align: center;
+
+    // Only affect the date tabs, not the filter dropdowns
+    .tabs {
+      text-align: center;
+    }
   }
 
   .date-pill {
@@ -1596,15 +1672,27 @@ a {
   }
 }
 
-.bookmark {
+.features {
   @include cursorpointer;
-  padding: 5px;
+  padding: 2px;
   position: absolute;
   right: 0;
   top: 0;
+}
 
-  i {
-    margin-left: 5px;
+.bookmark {
+  color: $gray-dark;
+
+  &:hover {
+    color: $grey;
+  }
+
+  &.starred {
+    color: $gold;
+  }
+
+  &.starred:hover {
+    color: $gold;
   }
 }
 
@@ -1640,7 +1728,7 @@ a {
   }
 
   &.is-active {
-    background-color: $gray-extra-light;
+    background-color: $date-button;
     color: $dark-black;
   }
 
@@ -1700,7 +1788,8 @@ a {
     }
 
     &:hover {
-      color: $dark-black;
+      border-bottom: 1px solid;
+      color: $hover-color;
     }
   }
 }
@@ -1713,7 +1802,7 @@ a {
 }
 
 #down-button {
-  color: $gray;
+  color: $text-color;
   font-size: 3em;
   position: fixed;
   right: 5%;
@@ -1765,13 +1854,20 @@ a.skip:hover {
 .calendar {
   margin-top: 13px;
   display: block;
-  background-color: $white;
+  background-color: $main-background;
 }
 
-.day-filter {
-  background-color: $white;
+.pop-out {
+  height: 100%;
+  left: 0;
+  margin: 0;
+  overflow: scroll;
+  padding: 30px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5000;
 }
-
 
 .calendar-content {
   display: block;
@@ -1779,7 +1875,6 @@ a.skip:hover {
 
 .calendar-footer {
   position: absolute;
-  background-color: $white;
   width: 100%;
 }
 
@@ -1792,7 +1887,7 @@ a.skip:hover {
 .rooms {
   overflow: hidden;
   overflow-x : auto;
-  width: calc(100% - 80px);
+  width: calc(100% - 48px);
   display: inline-block;
   white-space: nowrap;
 }
@@ -1802,6 +1897,7 @@ a.skip:hover {
   white-space: initial;
   display: inline-block;
   position: relative;
+  min-width: 160px;
 }
 
 .room-filter {
@@ -1813,7 +1909,7 @@ a.skip:hover {
   padding-right: 2px;
   display: flex;;
   width: 100%;
-  background-color: $white;
+  background-color: $background-shade;
   border-color: $gray-extra-light;
   border: 1px solid;
 
@@ -1851,7 +1947,7 @@ a.skip:hover {
 .time {
   padding-left: 5px;
   padding-right: 5px;
-  background-color: #f2f2f2;
+  background-color: $background-shade;
   border: 1px solid $border-event;
 }
 
@@ -1863,23 +1959,32 @@ a.skip:hover {
   margin-bottom: 14px;
 }
 
+#backButton{
+  float: left;
+  padding-left: 20px;
+}
+
 #social-icons {
   padding-right:0;
   padding-left:0;
   margin-left:15px;
   margin-right: 0;
-  @media screen and (max-width: 500px) {
+
+  @media screen and (max-width: 768px) {
     margin-left: 0;
-    margin-right: 15px;
+    text-align: center;
+
+    &:hover {
+      background-color: $white;
+      border-bottom: 1px solid;
+      color: $hover-color;
+    }
   }
 }
 
 // style from tracks
 
 #starred {
-  background-color:$white-gray;
-  color:black;
-  border-color:$light-black;
   margin: 0;
   width: 100%;
 }
@@ -1937,7 +2042,7 @@ a.skip:hover {
 }
 
 .org-name {
-  color: $gray-dark;
+  color: $text-color;
 }
 
 .session-header {
@@ -1972,7 +2077,8 @@ a.skip:hover {
 
 #audio-block {
   display: block;
-  margin-top: 15px
+  margin-top: 15px;
+  padding-left: 15px;
 }
 
 // style from speaker
@@ -1982,12 +2088,12 @@ a.skip:hover {
 }
 
 #speaker-container {
-  background-color: $white;
+  background-color: $main-background;
   padding: 2%;
 }
 
 #pop-speaker-name {
-  color: $black;
+  color: $speaker-name;
 }
 
 #session-location {
@@ -2020,7 +2126,7 @@ a.skip:hover {
 
 .session-container {
   margin-top: 2%;
-  background-color: white;
+  background-color: $main-background;
   text-align: center;
 }
 
@@ -2096,6 +2202,30 @@ a.skip:hover {
   margin-right: 15px;
 }
 
+.track-filter-info {
+  background-color: $span-background;
+  border: 1px dotted $black;
+  display: none;
+  font-size: 18px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.room-filter-info {
+  background-color: $span-background;
+  border: 1px dotted $black;
+  display: none;
+  font-size: 18px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
 .mobile-track-room-list {
   @media only screen and (min-width: 768px) {
     display: none;
@@ -2111,3 +2241,185 @@ a.skip:hover {
   display: block;
 }
 
+.session-speakers-list {
+  overflow-y: auto;
+}
+
+.calendar-session-speakers-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.slides {
+  color: $grey;
+}
+
+.video {
+  color: $grey;
+}
+
+#stack {
+  height: 1.4em;
+  margin-right: 5px;
+  width: 1.4em;
+}
+
+.fa-music {
+  margin-right: 5px;
+}
+
+
+.video-circle {
+  color: $red;
+  display: none;
+  font-size: 7px;
+  margin-left: -4px;
+  padding-top: 7px;
+}
+
+.coc {
+  font-size: 1.3em;
+  padding-left: 3%;
+  padding-right: 3%;
+  text-align: justify;
+
+  a {
+    &:hover {
+      border-bottom: 1px solid;
+      color: $hover-color;
+    }
+  }
+}
+
+.main-coc-container {
+  background-color: $main-background;
+  margin-bottom: 4%;
+  margin-top: 2%;
+  padding-bottom: 50px;
+  padding-top: 2%;
+}
+
+.desc-speaker-name {
+  color: $text-color;
+  display: block;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: $gray-medium;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.list-child {
+  display: inline-block;
+  padding-right: 10px;
+}
+
+// Filters for mobile view
+
+.dropdown-inner {
+  max-height: 200px;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+// When the screen gets too narrow, hide the searchbox
+@media only screen and (max-width: 380px) {
+  .filter.search-filter {
+    display: none;
+  }
+}
+
+@media only screen and (max-width:989px) {
+  .sidebar {
+    display: none;
+  }
+
+  .search-filter-schedule {
+    width: 39%;
+  }
+
+  // For mobile, menu fonts should be larger, so they can be tapped with a finger
+  .dropdown-menu {
+    a {
+      font-size: 16px;
+    }
+  }
+
+  .tracks-rooms-filter {
+    .dropdown-menu>li {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .dropdown-submenu {
+      position: static;
+    }
+
+    .dropdown-inner {
+      // If there are very long track/room names, make the menu scroll horizontally (rather than the screen)
+      max-width: 80vw;
+
+      > li {
+        // If the track/room name needs to wrap, it should wrap in its own box, not below the coloured dot
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+
+        // Override the line-height we have inherited from .date-list
+        line-height: 1.5em;
+
+        a {
+          // Since we are using the <a> for the blue highlight, it should feel the entire li
+          width: 100%;
+        }
+
+        > a:hover {
+          // This is the rule that Bootstrap uses to make the background blue
+          // We will use it to expand the dot a little
+          .titlecolor {
+            transform: scale(1.2);
+          }
+        }
+
+        .titlecolor {
+          // Do not let the dot lose its shape from being shrunk
+          flex: 0 0 auto;
+          // Ensure a gap between the dot and the track/room name
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width:990px) {
+  .sidebar {
+    display: inline-flex;
+  }
+
+  .dropdown-list {
+    display: none;
+  }
+}

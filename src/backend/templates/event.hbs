@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {{> googleanalytics}}
 
     <link rel="preload" as="script" href="./js/jquery.min.js">
     <link rel="preload" as="script" href="./js/bootstrap.min.js">
@@ -8,11 +9,13 @@
     <link rel="preload" as="style" href="./css/schedule.css">
     <link rel="preload" as="style" href="./css/font-awesome.min.css">
     <link rel="preload" as="style" href="./css/bootstrap.min.css">
+    <link rel="manifest" href="./manifest.json">
     <link rel="preload" as="font" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" crossorigin>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#317EFB"/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <meta name="description" content="{{ apptitle }} Schedule">
@@ -217,6 +220,7 @@
     {{/if}}
 
     <input type="hidden" id="mappos" value="{{{eventurls.latitude}}},{{{eventurls.longitude}}}"/>
+    <input type="hidden" id="theme" value={{theme}} />
 
     {{> footer}}
 

@@ -6,6 +6,7 @@
 -->
 <html lang="en">
 <head>
+  {{> googleanalytics}}
 
   <link rel="preload" as="script" href="./js/jquery.min.js">
   <link rel="preload" as="script" href="./js/bootstrap.min.js">
@@ -41,10 +42,10 @@
   <style>
   .search-filter>label>.fa {
     position: absolute;
-    padding-top: 20px;
+    padding-top: 25px;
     padding-left: 67px;
   }
-  @media only screen and (max-width: 450px) {
+  @media only screen and (max-width: 600px) {
          .search-filter>label>.fa {
              position: absolute;
              padding-top: 25px;
@@ -231,7 +232,7 @@
                 // show "no results" if search input value matches zero items
                 if ($('.speaker:visible').length == 0) {
                     $('#no-results').remove();
-                    $('.search-filter-speaker:first').after('<p id="no-results">No matching results found.</p>');
+                    $('.search-filter-speaker:first').after('<p id="no-results" style="color: red; padding-left: 25px; margin-left: 30px; font-weight: bold">No matching results found.</p>');
                 } else {
                     $('#no-results').remove();
                 }

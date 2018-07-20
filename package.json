@@ -4,10 +4,11 @@
   "description": "Open Event Webapp",
   "main": "index.js",
   "scripts": {
-    "server.generator": "node src/app.js",
-    "start": "npm run server.generator",
+    "start": "node src/app.js",
     "test": "mocha",
-    "coverage": "istanbul cover _mocha"
+    "coverage": "istanbul cover _mocha",
+    "lint": "eslint ./src",
+    "precommit": "eslint ./src"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,11 @@
     "async": "^2.0.0-rc.6",
     "aws-sdk": "^2.62.0",
     "babel-preset-es2015": "^6.24.0",
+    "bee-queue": "^1.2.2",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "chai": "^4.0.1",
     "compression": "^1.6.2",
-    "connect-domain": "^0.5.0",
     "cookie-parser": "^1.4.3",
     "decompress-zip": "^0.3.0",
     "express": "^4.13.4",
@@ -55,16 +56,18 @@
     "node-uuid": "^1.4.7",
     "nodemailer": "^4.0.1",
     "nodemailer-smtp-transport": "^2.7.2",
+    "npm": "^5.6.0",
     "passport": "^0.3.2",
     "passport-github": "^1.1.0",
     "path": "^0.12.7",
     "progress-stream": "^2.0.0",
     "raven": "^2.1.0",
     "recursive-readdir": "^2.1.0",
+    "redis": "^2.8.0",
     "request": "^2.74.0",
     "selenium-webdriver": "^3.4.0",
     "sendgrid": "^5.1.1",
-    "sharp": "^0.18.1",
+    "sharp": "^0.17.3",
     "socket.io": "^2.0.2",
     "socket.io-stream": "^0.9.1",
     "socketio-file-upload": "^0.6.0",
@@ -72,6 +75,8 @@
     "url-join": "^2.0.2"
   },
   "devDependencies": {
-    "connect-domain": "^0.5.0"
+    "connect-domain": "^0.5.0",
+    "eslint": "^4.19.1",
+    "husky": "^0.14.3"
   }
 }

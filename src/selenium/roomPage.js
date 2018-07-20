@@ -1,24 +1,27 @@
-var BasePage = require('./basePage.js');
-var By = require('selenium-webdriver').By;
-var until = require('selenium-webdriver').until;
+/* eslint-disable no-empty-label */
+'use strict';
 
-var RoomPage = Object.create(BasePage);
+const BasePage = require('./basePage.js');
+const By = require('selenium-webdriver').By;
+
+const RoomPage = Object.create(BasePage);
 
 RoomPage.checkIsolatedBookmark = function() {
-  var self = this;
-  var bookmarkSessionsIdsArr = ['3014'];
-  var visibleCheckSessionsIdsArr = ['3014', '3015', '2918'];
+  const self = this;
+  const bookmarkSessionsIdsArr = ['3014'];
+  const visibleCheckSessionsIdsArr = ['3014', '3015', '2918'];
 
   return self.bookmarkCheck(bookmarkSessionsIdsArr, visibleCheckSessionsIdsArr);
 };
 
 RoomPage.toggleSessionElem = function() {
-  var self = this;
+  const self = this;
 
   // Checking the toggle behaviour of session having id 3014
-  var promise = new Promise(function(resolve) {
+  const promise = new Promise(function(resolve) {
     self.find(By.id('title-3014')).then(self.click).then(self.driver.sleep(1000)).then(function() {
-      var promiseArr = [];
+      const promiseArr = [];
+
       promiseArr.push(self.find(By.id('desc-3014')).isDisplayed());
       promiseArr.push(self.find(By.id('desc2-3014')).isDisplayed());
       resolve(Promise.all(promiseArr));
@@ -29,9 +32,9 @@ RoomPage.toggleSessionElem = function() {
 };
 
 RoomPage.searchThenStarredMode = function() {
-  var self = this;
-  var idArr = ['3014', '2861', '3015'];
-  var promiseArr = idArr.map(function(elem) {
+  const self = this;
+  const idArr = ['3014', '2861', '3015'];
+  const promiseArr = idArr.map(function(elem) {
     return self.find(By.id(elem));
   });
 
@@ -39,13 +42,38 @@ RoomPage.searchThenStarredMode = function() {
 };
 
 RoomPage.starredModeThenSearch = function() {
-  var self = this;
-  var idArr = ['3014', '2861', '3015'];
-  var promiseArr = idArr.map(function(elem) {
+  const self = this;
+  const idArr = ['3014', '2861', '3015'];
+  const promiseArr = idArr.map(function(elem) {
     return self.find(By.id(elem));
   });
 
   return self.toggleStarredButton().then(self.search.bind(self, 'wel')).then(self.getElemsDisplayStatus.bind(null, promiseArr));
+};
+
+RoomPage.checkRoomFilterDirectLink = function() {
+  const self = this;
+  const roomIdArr = [];
+
+  function pushId(roomElement) {
+    roomElement.getAttribute('id').then(function(id) {
+      roomIdArr.push(id);
+    });
+  }
+
+  return new Promise(function(resolve) {
+    self.findAll(By.className('room-filter')).then(function(roomElems) {
+      roomElems.forEach(function(roomElem) {
+        roomElem.isDisplayed().then(function(val) {
+          if (val === true) {
+            pushId(roomElem);
+          }
+        });
+      });
+    }).then(function() {
+      resolve(roomIdArr);
+    });
+  });
 };
 
 module.exports = RoomPage;
