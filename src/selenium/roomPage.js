@@ -76,4 +76,27 @@ RoomPage.checkRoomFilterDirectLink = function() {
   });
 };
 
+RoomPage.checkFilterDynamicLink = function() {
+  const self = this;
+  const promiseArr = [];
+
+  promiseArr.push(self.activeRooms());
+  promiseArr.push(self.activeTracks());
+  return Promise.all(promiseArr);
+};
+
+RoomPage.checkVideo = function() {
+  const self = this;
+
+  return new Promise(function(resolve) {
+    self.find(By.id('title-3015')).then(self.click).then(function() {
+      self.find(By.id('video-3015')).then(function(elem) {
+        elem.getAttribute('src').then(function(url) {
+          resolve(self.isLinkBroken(url));
+        });
+      });
+    });
+  });
+};
+
 module.exports = RoomPage;

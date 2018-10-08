@@ -31,6 +31,10 @@ describe('generate', function () {
           "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIASummit2017/",
           "datasource": "eventapi",
           "assetmode": "download",
+          "gcalendar": {
+            'id': 'XXXXXXXXXX',
+            'key': 'XXXXXXXXX'
+          }
         };
 
         generator.createDistDir(data, 'Socket', function (appFolder) {
@@ -45,7 +49,7 @@ describe('generate', function () {
 
         data.body = {
           "email": "a@a.com",
-          "theme": "light",
+          "theme": "dark",
           "name": "Open Event",
           "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/MozillaAllHands17",
           "sessionMode": "single",
@@ -316,10 +320,48 @@ describe("Running Selenium tests on Chrome Driver", function () {
       });
     });
 
+    it('Checking the presence of Add to calendar button', function (done) {
+      schedulePage.checkAddToCalendarButton().then(function (){
+        done();
+      }).catch(function(err) {
+        done(err);
+      })
+    });
+
+    it('Checking the working of Add to calendar button', function (done) {
+      schedulePage.addSessionToCalendar().then(function(promptWindows) {
+        assert.equal(promptWindows, 2);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+
+    it('Checking the working of video iframe', function (done) {
+      schedulePage.checkVideo().then(function(bool) {
+        assert.equal(bool, false);
+        done();
+      }).catch(function(err) {
+        done(err);
+      })
+    });
+
     it('Checking the bookmark toggle', function (done) {
       schedulePage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit2017/schedule.html');
       schedulePage.checkIsolatedBookmark().then(function (visArr) {
         assert.deepEqual(visArr, [false, true, false]);
+        done();
+      }).catch(function (err) {
+        done(err);
+      });
+    });
+
+    it('Checking dynamic link for Rooms and Tracks filter', function (done) {
+      schedulePage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit2017/schedule.html');
+      schedulePage.driver.manage().window().maximize();
+      schedulePage.checkFilterDynamicLink().then(function (visibleRoomTrackArr) {
+        assert.deepEqual(visibleRoomTrackArr[0], [true, false, true]);
+        assert.deepEqual(visibleRoomTrackArr[1], [true, false, true]);
         done();
       }).catch(function (err) {
         done(err);
@@ -343,6 +385,16 @@ describe("Running Selenium tests on Chrome Driver", function () {
         assert.deepEqual(TracksArr, ["1002", "1101", "1102"]);
         done();
       }).catch(function (err) {
+        done(err);
+      });
+    });
+
+    it('Checking the background colors for dark theme', function (done) {
+      schedulePage.visit('http://localhost:5000/live/preview/a@a.com/MozillaAllHands2017/schedule.html');
+      schedulePage.getBackgroundColor('schedule').then(function(bgcolorArr) {
+        assert.deepEqual(bgcolorArr, ['rgba(51, 61, 90, 1)', 'rgba(35, 41, 58, 1)']);
+        done();
+      }).catch(function(err) {
         done(err);
       });
     });

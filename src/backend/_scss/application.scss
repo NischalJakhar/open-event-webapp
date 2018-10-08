@@ -3,6 +3,8 @@
 // 1.Base
 @import '_base/config';
 
+$main-background-translucent: rgba($main-background, 0.7);
+
 /* Offsets for fixed navbar */
 body {
   background-color: $background-shade;
@@ -146,6 +148,10 @@ a {
     &:hover {
       color: $hover-color;
     }
+  }
+
+  &.navbar--translucent {
+    background-color: $main-background-translucent;
   }
 }
 
@@ -519,6 +525,44 @@ a {
 .calendar-filter {
   flex-grow: 1;
   padding-top: 8px;
+}
+
+.add-to-calendar-button {
+  display: block;
+  margin-top: 2%;
+}
+
+.add-to-calendar-button-single {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+
+.profile-image {
+  border: 1px solid;
+  border-radius: 50%;
+  color: $grey;
+  font-size: 25px;
+  height: 75px;
+  line-height: 75px;
+  margin: 5px 0;
+  text-align: center;
+  width: 75px;
+}
+
+.attendee-section {
+  max-height: 300px;
+  overflow-y: hidden;
+  padding-left: -15px;
+
+  &:hover {
+    overflow-y: scroll;
+  }
+}
+
+.attendees {
+  padding-left: 0;
 }
 
 .schedule-download {
@@ -1014,13 +1058,12 @@ a {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   .pop-box {
-    width: 100%;
+    width: 160%;
 
     .arrow {
-      left: 48%;
-      margin-top: -10px;
+      margin-top: -9px;
     }
   }
 }
@@ -1100,9 +1143,7 @@ a {
 
       #ticket-button {
         display: block;
-        position: relative;
         top: -87px;
-        visibility: hidden;
       }
 
     }
@@ -1317,7 +1358,7 @@ a {
     float: left;
     max-height: 262.5px;
     overflow: hidden;
-    padding-left: 30px;
+    padding-left: 10px;
     width: 50%;
     &:hover {
       overflow: auto;
@@ -1327,7 +1368,7 @@ a {
       margin-right: 20px;
       display: inline-block;
       font-weight: 600;
-      margin-bottom: 18px;
+      margin-bottom: 13px;
     }
 
     p {
@@ -1339,6 +1380,7 @@ a {
 
     h2 {
       margin-right: 20px;
+      margin: 0;
     }
   }
 }
@@ -1354,9 +1396,8 @@ a {
     }
 
     .speaker-description {
-      padding-left: 0;
       text-align: center;
-      width: 100%;
+      width: 50%;
     }
   }
 }

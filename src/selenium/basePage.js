@@ -3,7 +3,8 @@
 
 const until = require('selenium-webdriver').until;
 const By = require('selenium-webdriver').By;
-const request = require('request');
+const config = require('../../config.json');
+const request = require('request').defaults({'proxy': config.proxy});
 
 const BasePage = {
 
@@ -80,6 +81,22 @@ const BasePage = {
     const sessionElemIdArr = ['title-3014', 'title-2941'];
     const colorPromArr = sessionElemIdArr.map(function(sessionElemId) {
       return self.find(By.id(sessionElemId)).getCssValue('color');
+    });
+
+    return Promise.all(colorPromArr);
+  },
+
+  getBackgroundColor: function(page) {
+    const self = this;
+    let elemsArr;
+
+    if (page === 'event') {
+      elemsArr = ['body', '.eventpage.container'];
+    } else {
+      elemsArr = ['body', '.main.container'];
+    }
+    const colorPromArr = elemsArr.map(function(elem) {
+      return self.find(By.css(elem)).getCssValue('background-color');
     });
 
     return Promise.all(colorPromArr);
@@ -174,6 +191,17 @@ const BasePage = {
             resolve(brokenLinks);
           }
         });
+      });
+    });
+  },
+
+  isLinkBroken: function(url) {
+    return new Promise(function(resolve) {
+      request(url, function(error, response) {
+        if (error || response.statusCode === 404) {
+          resolve(true);
+        }
+        resolve(false);
       });
     });
   },
@@ -381,6 +409,74 @@ const BasePage = {
     });
 
     return socialPromise;
+  },
+
+  activeRooms: function() {
+    const self = this;
+    const activeRoomsArr = [];
+
+    return self.driver.findElements(By.css('.room-info>.room-name')).then(function(rooms) {
+      rooms[0].click().then(self.driver.sleep(1000)).then(self.getPageUrl.bind(self)).then(function(url) {
+        activeRoomsArr.push(decodeURIComponent(url.split('#')[1]) === 'Annexe Hall (Ground Floor)');
+      });
+      rooms[1].click().then(self.driver.sleep(1000)).then(self.getPageUrl.bind(self)).then(function(url) {
+        activeRoomsArr.push(decodeURIComponent(url.split('#')[1]) === 'Annexe Hall (Ground Floor)');
+        activeRoomsArr.push(decodeURIComponent(url.split('#')[1]) === 'Curie & Hershel (Floor 2)');
+      });
+    }).then(function() {
+      return Promise.all(activeRoomsArr);
+    });
+  },
+
+  activeTracks: function() {
+    const self = this;
+    const activeTracksArr = [];
+
+    return self.driver.findElements(By.css('.track-info>.track-name')).then(function(tracks) {
+      tracks[0].click().then(self.driver.sleep(1000)).then(self.getPageUrl.bind(self)).then(function(url) {
+        activeTracksArr.push(decodeURIComponent(url.split('#')[1]) === 'AI & Machine Learning');
+      });
+      tracks[1].click().then(self.driver.sleep(1000)).then(self.getPageUrl.bind(self)).then(function(url) {
+        activeTracksArr.push(decodeURIComponent(url.split('#')[1]) === 'AI & Machine Learning');
+        activeTracksArr.push(decodeURIComponent(url.split('#')[1]) === 'Android');
+      });
+    }).then(function() {
+      return Promise.all(activeTracksArr);
+    });
+  },
+
+  checkAddToCalendarButton: function() {
+    const self = this;
+    const promise = new Promise(function(resolve) {
+      resolve(self.find(By.css('#desc-3014 button')).isDisplayed());
+    });
+
+    return promise;
+  },
+
+  addSessionToCalendar: function() {
+    const self = this;
+
+    const promise = new Promise(function(resolve) {
+      let baseWindow;
+
+      self.find(By.css('#desc-3014 button')).then(self.click).then(self.driver.sleep(1000)).then(function() {
+        self.driver.getWindowHandle().then(function(windowElem) {
+          baseWindow = windowElem;
+        });
+
+        self.getAllWindows().then(function(windowArr) {
+          const len = windowArr.length;
+
+          windowArr.splice(windowArr.indexOf(baseWindow), 1);
+          self.closeOtherWindows(windowArr, baseWindow).then(function() {
+            resolve(len);
+          });
+        });
+      });
+    });
+
+    return promise;
   }
 };
 

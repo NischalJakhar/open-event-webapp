@@ -31,6 +31,10 @@ describe('generate', function() {
         "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/FOSSASIASummit2017/",
         "datasource": "eventapi",
         "assetmode": "download",
+        "gcalendar": {
+          'id': 'XXXXXXXXXXX',
+          'key': 'XXXXXXXXXX'
+        }
       };
 
       generator.createDistDir(data, 'Socket', function(appFolder) {
@@ -45,7 +49,7 @@ describe('generate', function() {
 
       data.body = {
         "email": "a@a.com",
-        "theme": "light",
+        "theme": "dark",
         "name": "Open Event",
         "apiendpoint": "https://raw.githubusercontent.com/fossasia/open-event/master/sample/MozillaAllHands17",
         "sessionMode": "single",
@@ -189,6 +193,32 @@ describe("Running Selenium tests on Chrome Driver", function() {
       });
     });
 
+    it('Checking the presence of Add to calendar button', function (done) {
+      roomPage.checkAddToCalendarButton().then(function (){
+        done();
+      }).catch(function(err) {
+        done(err);
+      })
+    });
+
+    it('Checking the working of Add to calendar button', function (done) {
+      roomPage.addSessionToCalendar().then(function(promptWindows) {
+        assert.equal(promptWindows, 2);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+
+    it('Checking the working of video iframe', function (done) {
+      roomPage.checkVideo().then(function(bool) {
+        assert.equal(bool, false);
+        done();
+      }).catch(function(err) {
+        done(err);
+      })
+    });
+
     it('Checking Jump to Speaker functionality', function(done) {
       roomPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit2017/rooms.html');
       roomPage.jumpToSpeaker().then(function(val) {
@@ -229,10 +259,32 @@ describe("Running Selenium tests on Chrome Driver", function() {
       });
     });
 
+    it('Checking dynamic link for Rooms and Tracks filter', function (done) {
+      roomPage.visit('http://localhost:5000/live/preview/a@a.com/FOSSASIASummit2017/rooms.html');
+      roomPage.driver.manage().window().maximize();
+      roomPage.checkFilterDynamicLink().then(function (visibleRoomTrackArr) {
+        assert.deepEqual(visibleRoomTrackArr[0], [true, false, true]);
+        assert.deepEqual(visibleRoomTrackArr[1], [true, false, true]);
+        done();
+      }).catch(function (err) {
+        done(err);
+      });
+    });
+
     it('Checking direct link for Rooms filter', function(done) {
       roomPage.visit('http://localhost:5000/live/preview/a@a.com/MozillaAllHands2017/rooms.html#Balboa');
       roomPage.checkRoomFilterDirectLink().then(function(roomsArr) {
         assert.deepEqual(roomsArr, ["1078", "1079", "1080", "1081"]);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+
+    it('Checking the background colors for dark theme', function (done) {
+      roomPage.visit('http://localhost:5000/live/preview/a@a.com/MozillaAllHands2017/rooms.html');
+      roomPage.getBackgroundColor('rooms').then(function(bgcolorArr) {
+        assert.deepEqual(bgcolorArr, ['rgba(51, 61, 90, 1)', 'rgba(35, 41, 58, 1)']);
         done();
       }).catch(function(err) {
         done(err);
@@ -268,6 +320,16 @@ describe("Running Selenium tests on Chrome Driver", function() {
     it('Jump to track page on clicking session of a speaker', function(done) {
       speakerPage.jumpToTrack().then(function(val) {
         assert.equal(val, 1);
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+
+    it('Checking the background colors for dark theme', function (done) {
+      speakerPage.visit('http://localhost:5000/live/preview/a@a.com/MozillaAllHands2017/speakers.html');
+      speakerPage.getBackgroundColor('speakers').then(function(bgcolorArr) {
+        assert.deepEqual(bgcolorArr, ['rgba(51, 61, 90, 1)', 'rgba(35, 41, 58, 1)']);
         done();
       }).catch(function(err) {
         done(err);
